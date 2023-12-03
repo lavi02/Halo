@@ -1,0 +1,48 @@
+version: "3"
+services:
+  unicorn:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: halo
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mariadb
+      - redis
+    environment:
+      - DATABASE_URL
+      - REDIS_URL
+    networks:
+      - halo_net
+
+  mariadb:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - halo_net
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - halo_net
+
+volumes:
+  mariadb_data:
+  redis_data:
+
+networks:
+  halo_net:
+    name: halo_net
