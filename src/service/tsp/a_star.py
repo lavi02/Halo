@@ -1,5 +1,6 @@
 import osmnx as ox
 import networkx as nx
+from dependency_injector.wiring import inject, Provide
 
 
 class HeuristicAgent:
