@@ -55,9 +55,21 @@ class QLearningAgent:
         return action
 
     def update(self, state, action, reward, next_state):
-        predict = self.q_table[state, action]
-        target = reward + self.gamma * np.max(self.q_table[next_state, :])
-        self.q_table[state, action] += self.lr * (target - predict)
+        '''
+        Updates the Q-table
+
+        Args:
+            state: The current state
+            action: The action to be taken
+            reward: The reward for the action
+            next_state: The next state
+        '''
+        available_actions = len(list(self.env.graph.neighbors(state)))
+        if next_state == self.env.destination_node:
+            self.q_table[state, action] = reward
+        else:
+            self.q_table[state, action] = self.q_table[state, action] + self.lr * (
+                reward + self.gamma * np.max(self.q_table[next_state, :available_actions]) - self.q_table[state, action])
 
     def train(self, num_episodes):
         for episode in range(num_episodes):
@@ -70,6 +82,8 @@ class QLearningAgent:
                 self.update(state, action, reward, next_state)
                 state = next_state
 
+            self.epsilon = 1 - (episode / num_episodes)
+
 
 # 도로 네트워크 로드 필요
 def optimize_route(graph, origin_point, destination_point, num_episodes=1000):
@@ -78,15 +92,16 @@ def optimize_route(graph, origin_point, destination_point, num_episodes=1000):
 
     env = RouteEnv(graph, origin_node, destination_node)
     agent = QLearningAgent(env)
-
     agent.train(num_episodes)
 
-    current_state = origin_node
-    path = [current_state]
+    state = env.reset()
+    done = False
+    path = [state]
 
-    while current_state != destination_node:
-        action = np.argmax(agent.q_table[current_state, :])
-        current_state = list(graph.neighbors(current_state))[action]
-        path.append(current_state)
+    while not done:
+        action = agent.choose_action(state)
+        next_state, _, done = env.step(action)
+        state = next_state
+        path.append(state)
 
     return path
