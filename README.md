@@ -1,5 +1,3 @@
-﻿# Project Halo
-
 ## Introduction
 
 Project Halo is an open-source OSM (OpenStreetMap) route optimization engine. Built on FastAPI, this RESTful backend provides efficient route calculation and data processing. Leveraging SQLAlchemy for database management and Redis for fast data access, the project maximizes performance.
