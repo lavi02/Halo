@@ -5,12 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import redis
 from contextlib import contextmanager
 from src.repo.log.__init__ import handler
-
-
-class Config:
-    DATABASE_URL = os.getenv("DATABASE_URL")
-    REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
-    REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+from example.src.config.config import Config
 
 
 redis_client = redis.Redis(host=Config.REDIS_HOST,
@@ -23,7 +18,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
-@contextmanager
 def get_db() -> SessionLocal:
     db = SessionLocal()
     try:
