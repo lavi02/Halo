@@ -24,5 +24,4 @@ cd halo
 docker-compose up -d
 ```
 
-
-![image](https://github.com/lavi02/Halo/assets/55977356/d1b2efd2-3b29-4e39-b56d-34bf008896c2)
+![image](https://github.com/f-lab-edu/Halo/assets/55977356/54fd747e-1cd2-4471-8dbd-02c9a985373e)
