@@ -6,3 +6,8 @@ share
 pyvenv.cfg
 .env
 __pycache__*
+bin
+lib
+route_halo*
+build
+dist
