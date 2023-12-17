@@ -2,10 +2,15 @@
 # config if production - .env.production
 
 import os
-from dataclasses import dataclass 
+from dataclasses import dataclass
+from fastapi import FastAPI
+
+app = FastAPI()
+
 
 class Config:
-    DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:root@localhost:3306/halo")
+    DATABASE_URL = os.getenv(
+        "DATABASE_URL", "mysql+pymysql://root:root@localhost:3306/halo")
     MYSQL_ROOT_PASSWORD = os.getenv("MYSQL_ROOT_PASSWORD", "root")
     MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "halo")
     MYSQL_USER = os.getenv("MYSQL_USER", "root")

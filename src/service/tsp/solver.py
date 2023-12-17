@@ -219,4 +219,4 @@ def run(waypoints: dict) -> dict:
 
     except Exception as e:
         handler.log.error("TSP error occurred: %s", e)
-        return None
+        return [None, None]
