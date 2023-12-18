@@ -5,7 +5,7 @@ with open('requirements.txt',  encoding='utf-8') as f:
 
 setup(
     name='route-halo',
-    version='0.1.0',
+    version='0.1.1',
     description='Halo the route optimizer tool',
     author='Hoil Jeong',
     author_email='me@haoyi.dev',
