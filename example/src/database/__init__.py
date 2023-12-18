@@ -18,22 +18,22 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
-def get_db() -> SessionLocal:
+def get_db():
     db = SessionLocal()
     try:
         yield db
     except Exception as e:
         db.rollback()
-        handler.log.error("Database error: %s", e)
+        handler.log.error("Database error: %s" % e)
         raise e
     finally:
         db.close()
 
 
 @contextmanager
-def get_redis() -> redis.Redis:
+def get_redis():
     try:
         yield redis_client
     except Exception as e:
-        handler.log.error("Redis error: %s", e)
+        handler.log.error("Redis error: %s" % e)
         raise e

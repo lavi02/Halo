@@ -24,7 +24,7 @@ class RouteOptimizer:
             raise e
 
 
-class OptAPIRouter(Waypoints):
+class OptAPIRouter:
     def __Init__(self):
         self.router = APIRouter()
 
@@ -32,7 +32,8 @@ class OptAPIRouter(Waypoints):
         @app.post("/optimize")
         async def optimize(waypoints: Waypoints):
             try:
+                optimizer = RouteOptimizer(waypoints.waypoints)
                 optimized_route = optimizer.optimize_route()
                 return optimized_route
             except Exception as e:
-                raise HTTPException(status_code=500, detail=str(e))
+                raise HTTPException(status_code=200, detail=str(e))

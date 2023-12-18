@@ -1,17 +1,20 @@
 from fastapi import APIRouter as FastAPIRouter
 from fastapi import FastAPI
 from example.src.router.user import UserAPIRouter
+from example.src.router.route import OptAPIRouter
 from src.repo.log.__init__ import handler
 
 class MainAPIRouter:
     def __init__(self):
         self.router = FastAPIRouter() 
         self.user_router = UserAPIRouter()
+        self.opt_router = OptAPIRouter()
 
         self.initialize_routes()
 
     def initialize_routes(self):
-        self.router.include_router(self.user_router.router, tags=["slack"])
+        self.router.include_router(self.user_router.router, tags=["user"])
+        self.router.include_router(self.opt_router.router, tags=["optimize"])
 
 async def startup():
     # if not Config.REAL:

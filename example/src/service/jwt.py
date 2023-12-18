@@ -1,12 +1,10 @@
 from datetime import datetime, timedelta
 from typing import Optional
-from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import JWTError, jwt
+from fastapi.security import OAuth2PasswordBearer
+from jose import jwt
 from passlib.context import CryptContext
-from pydantic import BaseModel
 
-from example.src.database.models.user.user import User, UserTable
+from example.src.database.models.user.user import User
 
 class AuthManager:
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -28,11 +26,11 @@ class AuthManager:
         to_encode = data.copy()
         expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
         to_encode.update({"exp": expire})
-        return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        return jwt.encode(to_encode, AuthManager.SECRET_KEY, algorithm=AuthManager.ALGORITHM)
 
     @staticmethod
     def get_user(db, username: str):
-        return db.query(User).filter(User.username == username).first()
+        return db.query(User).filter(User.user_id == username).first()
 
     @staticmethod
     def authenticate_user(db, username: str, password: str):
