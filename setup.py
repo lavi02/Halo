@@ -15,7 +15,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/lavi02/Halo',
     install_requires=required,
-    keywords=['route', 'optimizer', 'tsp', 'traveling', 'salesman'],
+    keywords=['route', 'optimizer', 'tsp'],
     python_requires='>=3.8',
 )
 
