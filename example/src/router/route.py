@@ -3,6 +3,8 @@ from pydantic import BaseModel
 from typing import Dict, Tuple
 from src.service.tsp.solver import run
 from example.src.config.config import Config, app
+from fastapi import Depends, HTTPException
+from example.src.service.jwt import JWTAuthenticator
 
 # 1. FastAPI 설정
 app = FastAPI()
@@ -30,7 +32,7 @@ class OptAPIRouter:
 
     def optimize_waypoints(self):
         @app.post("/optimize")
-        async def optimize(waypoints: Waypoints):
+        async def optimize(waypoints: Waypoints,  current_user: str = Depends(JWTAuthenticator.get_current_user)):
             try:
                 optimizer = RouteOptimizer(waypoints.waypoints)
                 optimized_route = optimizer.optimize_route()
