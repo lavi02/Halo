@@ -35,3 +35,15 @@
 2023-12-11 17:39:06,101 - Halo - INFO - Handler initialized
 2023-12-11 17:39:06,157 - Halo - INFO - Server started
 2023-12-11 17:39:06,157 - Halo - INFO - Server started
+2023-12-27 13:49:01,555 - Halo - INFO - Handler initialized
+2023-12-27 13:49:13,575 - Halo - INFO - Handler initialized
+2023-12-27 13:49:14,187 - Halo - INFO - Handler initialized
+2023-12-27 13:49:14,187 - Halo - INFO - Handler initialized
+2023-12-27 13:49:31,312 - Halo - ERROR - A* error: 'x'
+2023-12-27 13:49:31,312 - Halo - ERROR - A* error: 'x'
+2023-12-27 13:49:31,326 - Halo - INFO - Objective: 45
+2023-12-27 13:49:31,326 - Halo - INFO - Objective: 45
+2023-12-27 13:49:31,326 - Halo - INFO - Route: 
+2023-12-27 13:49:31,326 - Halo - INFO - Route: 
+2023-12-27 13:49:31,327 - Halo - ERROR - Q error: 0
+2023-12-27 13:49:31,327 - Halo - ERROR - Q error: 0

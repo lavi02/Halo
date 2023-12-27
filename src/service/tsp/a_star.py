@@ -1,6 +1,5 @@
 import osmnx as ox
 import networkx as nx
-from dependency_injector.wiring import inject, Provide
 
 
 class HeuristicAgent:
@@ -35,7 +34,7 @@ class HeuristicAgent:
         originY = origin_point[1]
         destinationX = destination_point[0]
         destinationY = destination_point[1]
-        
+
         origin_node = ox.nearest_nodes(self.graph, originX, originY)
         destination_node = ox.nearest_nodes(self.graph, destinationX, destinationY)
         try:
