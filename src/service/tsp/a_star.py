@@ -19,7 +19,7 @@ class HeuristicAgent:
     def __init__(self, graph):
         self.graph = graph
 
-    def calculate_shortest_path(self, origin_point: float, destination_point: float, weight='length') -> list:
+    def calculate_shortest_path(self, origin_point: tuple, destination_point: tuple, weight='length') -> list:
         '''
         Calculates the shortest path between two points
 
@@ -31,15 +31,20 @@ class HeuristicAgent:
         Returns:
             The shortest path between the two points
         '''
-        origin_node = ox.get_nearest_node(self.graph, origin_point)
-        destination_node = ox.get_nearest_node(self.graph, destination_point)
+        originX = origin_point[0]
+        originY = origin_point[1]
+        destinationX = destination_point[0]
+        destinationY = destination_point[1]
+        
+        origin_node = ox.nearest_nodes(self.graph, originX, originY)
+        destination_node = ox.nearest_nodes(self.graph, destinationX, destinationY)
         try:
             shortest_path = nx.astar_path(
                 self.graph, origin_node, destination_node, weight=weight)
             return shortest_path
         except nx.NetworkXNoPath:
             print("No path found between the specified nodes.")
-            return None
+            return []
 
     def calculate_path_attribute(self, path: list, attribute: str) -> float:
         '''
@@ -54,7 +59,7 @@ class HeuristicAgent:
         '''
         return sum(self.graph[path[i]][path[i + 1]][0].get(attribute, 0) for i in range(len(path) - 1))
 
-    def calculate_optimized_path(self, origin_point: float, destination_point: float):
+    def calculate_optimized_path(self, origin_point: tuple, destination_point: tuple):
         '''
         Calculates the optimized path between two points
 

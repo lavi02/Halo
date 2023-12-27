@@ -69,7 +69,7 @@ class QLearningAgent:
             self.q_table[state, action] = reward
         else:
             self.q_table[state, action] = self.q_table[state, action] + self.lr * (
-                reward + self.gamma * np.max(self.q_table[next_state, :available_actions]) - self.q_table[state, action])
+                reward + self.gamma * float(np.max(self.q_table[next_state, :available_actions])) - self.q_table[state, action])
 
     def train(self, num_episodes):
         for episode in range(num_episodes):
@@ -87,8 +87,13 @@ class QLearningAgent:
 
 # 도로 네트워크 로드 필요
 def optimize_route(graph, origin_point, destination_point, num_episodes=1000):
-    origin_node = ox.get_nearest_node(graph, origin_point)
-    destination_node = ox.get_nearest_node(graph, destination_point)
+    originX = origin_point[0]
+    originY = origin_point[1]
+    destinationX = destination_point[0]
+    destinationY = destination_point[1]
+
+    origin_node = ox.nearest_nodes(graph, originX, originY)
+    destination_node = ox.nearest_nodes(graph, destinationX, destinationY)
 
     env = RouteEnv(graph, origin_node, destination_node)
     agent = QLearningAgent(env)

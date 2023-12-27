@@ -54,7 +54,7 @@ def optimize_route_ortools(matrix):
         solution = routing.SolveWithParameters(search_parameters)
 
         if solution:
-            handler.log.info("Objective: %s", solution.ObjectiveValue())
+            handler.log.info("Objective: %s" % solution.ObjectiveValue())
             handler.log.info("Route: ")
 
             objective_value = solution.ObjectiveValue()
@@ -72,7 +72,7 @@ def optimize_route_ortools(matrix):
             return None, None
 
     except Exception as e:
-        handler.log.error("Ortools error: %s", e)
+        handler.log.error("Ortools error: %s" % e)
         return None, None
 
 
@@ -110,7 +110,7 @@ def optimize_route_q(matrix):
         return objective_value, path
 
     except Exception as e:
-        handler.log.error("Q error: %s", e)
+        handler.log.error("Q error: %s" % e)
         return None, None
 
 
@@ -132,6 +132,8 @@ def optimize_route_a_star(matrix):
 
         agent = HeuristicAgent(graph)
         path = agent.calculate_optimized_path(origin, destination)
+        if path is None:
+            return None, None
 
         objective_value = 0
         for i in range(len(path) - 1):
@@ -140,7 +142,7 @@ def optimize_route_a_star(matrix):
         return objective_value, path
 
     except Exception as e:
-        handler.log.error("A* error: %s", e)
+        handler.log.error("A* error: %s" % e)
         return None, None
 
 
@@ -153,9 +155,7 @@ def download_korea_road_network() -> nx.Graph:
 
 def create_distance_matrix(graph, coords):
     df = pd.DataFrame(coords, columns=['y', 'x'])
-    df['node'] = df.apply(lambda row: ox.get_nearest_node(
-        graph, (row['y'], row['x'])), axis=1)
-
+    df['node'] = [ox.nearest_nodes(graph, x, y) for x, y in coords[::-1]]
     matrix = np.zeros((len(coords), len(coords)))
 
     for i in range(len(coords)):
@@ -218,5 +218,5 @@ def run(waypoints: dict) -> dict:
         return optimized_waypoints
 
     except Exception as e:
-        handler.log.error("TSP error occurred: %s", e)
-        return [None, None]
+        handler.log.error("TSP error occurred: %s" % e)
+        return {}
