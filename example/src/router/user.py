@@ -16,6 +16,7 @@ class UserAPIRouter:
 
         self.user_token()
         self.user_login()
+        self.user_register()
 
     def user_token(self):
         @app.post("/token")
@@ -38,3 +39,16 @@ class UserAPIRouter:
                 return JSONResponse(status_code=200, content={"message": "success", "token": access_token})
             else:
                 return JSONResponse(status_code=400, content={"message": "failed"})
+            
+    def user_register(self):
+        @self.router.post("/register")
+        async def register(userInfo: User, db = Depends(get_db)):
+            user = AuthManager.get_user(db, userInfo.user_id)
+            if user:
+                return JSONResponse(status_code=400, content={"message": "failed"})
+            else:
+                hashed_password = AuthManager.get_password_hash(userInfo.password)
+                db_user = UserTable(user_id=userInfo.user_id, password=hashed_password, email=userInfo.email)
+                db.add(db_user)
+                db.commit()
+                return JSONResponse(status_code=200, content={"message": "success"})

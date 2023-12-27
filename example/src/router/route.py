@@ -32,8 +32,12 @@ class RouteOptimizer:
 
 
 class OptAPIRouter:
-    def __Init__(self):
+    def __init__(self):
         self.router = APIRouter()
+
+        self.optimize_waypoints()
+        self.get_analysis_by_id()
+        self.get_analysis_by_user()
 
     def optimize_waypoints(self):
         @app.post("/optimize")
