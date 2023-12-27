@@ -24,3 +24,6 @@ cd halo
 docker-compose up -d
 ```
 
+## Example ERD
+- https://www.erdcloud.com/p/f5MEA63DBzZb7cCJ9
+
