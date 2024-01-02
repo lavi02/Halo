@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 
 Halo is an open-source OSM (OpenStreetMap) route optimization engine. Built on FastAPI, this RESTful backend provides efficient route calculation and data processing. Leveraging SQLAlchemy for database management and Redis for fast data access, the project maximizes performance.
 
@@ -25,5 +25,5 @@ docker-compose up -d
 ```
 
 ## Example ERD
-- https://www.erdcloud.com/p/f5MEA63DBzZb7cCJ9
 
+- <https://www.erdcloud.com/p/f5MEA63DBzZb7cCJ9>

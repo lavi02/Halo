@@ -14,9 +14,15 @@ class UserAPIRouter:
     def __init__(self):
         self.router = APIRouter()
 
+        self.check_health()
         self.user_token()
         self.user_login()
         self.user_register()
+
+    def check_health(self):
+        @self.router.get("/health")
+        async def health():
+            return JSONResponse(status_code=200, content={"message": "success"})
 
     def user_token(self):
         @app.post("/token")
