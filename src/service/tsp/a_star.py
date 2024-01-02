@@ -56,9 +56,9 @@ class HeuristicAgent:
         Returns:
             The attribute of the path
         '''
-        return sum(self.graph[path[i]][path[i + 1]][0].get(attribute, 0) for i in range(len(path) - 1))
+        return sum(self.graph[path[i]][path[i + 1]].get(attribute, 0) for i in range(len(path) - 1))
 
-    def calculate_optimized_path(self, origin_point: tuple, destination_point: tuple):
+    def calculate_optimized_path(self, origin_point: tuple, destination_point: tuple) -> list:
         '''
         Calculates the optimized path between two points
 
@@ -72,7 +72,7 @@ class HeuristicAgent:
         shortest_path = self.calculate_shortest_path(
             origin_point, destination_point)
         if shortest_path is None:
-            return None
+            return []
         shortest_path_length = self.calculate_path_attribute(
             shortest_path, 'length')
 

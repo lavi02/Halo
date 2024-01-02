@@ -20,12 +20,13 @@ class RouteEnv:
     def step(self, action):
         neighbors = list(self.graph.neighbors(self.current_node))
         next_node = neighbors[action]
-
-        reward = -self.graph[self.current_node][next_node][0]['length']
+        # Use get method with a default value for missing 'length' attribute
+        reward = -self.graph[self.current_node][next_node].get('length', 1)  # Default length can be 1 or any other value
         self.current_node = next_node
 
         done = self.current_node == self.destination_node
         return self.current_node, reward, done
+
 
 
 class QLearningAgent:

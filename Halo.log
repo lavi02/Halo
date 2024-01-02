@@ -47,3 +47,98 @@
 2023-12-27 13:49:31,326 - Halo - INFO - Route: 
 2023-12-27 13:49:31,327 - Halo - ERROR - Q error: 0
 2023-12-27 13:49:31,327 - Halo - ERROR - Q error: 0
+2024-01-02 23:27:56,453 - Halo - INFO - Handler initialized
+2024-01-02 23:27:57,088 - Halo - INFO - Handler initialized
+2024-01-02 23:27:57,088 - Halo - INFO - Handler initialized
+2024-01-02 23:28:01,251 - Halo - ERROR - A* error: 'x'
+2024-01-02 23:28:01,251 - Halo - ERROR - A* error: 'x'
+2024-01-02 23:28:01,266 - Halo - INFO - Objective: 45
+2024-01-02 23:28:01,266 - Halo - INFO - Objective: 45
+2024-01-02 23:28:01,266 - Halo - INFO - Route: 
+2024-01-02 23:28:01,266 - Halo - INFO - Route: 
+2024-01-02 23:28:01,267 - Halo - ERROR - Q error: 0
+2024-01-02 23:28:01,267 - Halo - ERROR - Q error: 0
+2024-01-02 23:30:01,067 - Halo - INFO - Handler initialized
+2024-01-02 23:30:01,783 - Halo - INFO - Handler initialized
+2024-01-02 23:30:01,783 - Halo - INFO - Handler initialized
+2024-01-02 23:30:05,483 - Halo - ERROR - A* error: 'x'
+2024-01-02 23:30:05,483 - Halo - ERROR - A* error: 'x'
+2024-01-02 23:30:05,488 - Halo - INFO - Objective: 45
+2024-01-02 23:30:05,488 - Halo - INFO - Objective: 45
+2024-01-02 23:30:05,488 - Halo - INFO - Route: 
+2024-01-02 23:30:05,488 - Halo - INFO - Route: 
+2024-01-02 23:30:05,489 - Halo - ERROR - Q error: 0
+2024-01-02 23:30:05,489 - Halo - ERROR - Q error: 0
+2024-01-02 23:36:06,441 - Halo - INFO - Handler initialized
+2024-01-02 23:36:07,084 - Halo - INFO - Handler initialized
+2024-01-02 23:36:07,084 - Halo - INFO - Handler initialized
+2024-01-02 23:36:15,754 - Halo - ERROR - A* error: 'x'
+2024-01-02 23:36:15,754 - Halo - ERROR - A* error: 'x'
+2024-01-02 23:36:15,758 - Halo - INFO - Objective: 45
+2024-01-02 23:36:15,758 - Halo - INFO - Objective: 45
+2024-01-02 23:36:15,758 - Halo - INFO - Route: 
+2024-01-02 23:36:15,758 - Halo - INFO - Route: 
+2024-01-02 23:36:15,758 - Halo - ERROR - Q error: 'length'
+2024-01-02 23:36:15,758 - Halo - ERROR - Q error: 'length'
+2024-01-02 23:46:31,984 - Halo - INFO - Handler initialized
+2024-01-02 23:46:32,643 - Halo - INFO - Handler initialized
+2024-01-02 23:46:32,643 - Halo - INFO - Handler initialized
+2024-01-02 23:48:02,511 - Halo - INFO - Handler initialized
+2024-01-02 23:48:03,147 - Halo - INFO - Handler initialized
+2024-01-02 23:48:03,147 - Halo - INFO - Handler initialized
+2024-01-02 23:48:58,888 - Halo - INFO - Handler initialized
+2024-01-02 23:48:59,520 - Halo - INFO - Handler initialized
+2024-01-02 23:48:59,520 - Halo - INFO - Handler initialized
+2024-01-02 23:48:59,524 - Halo - INFO - Objective: 6
+2024-01-02 23:48:59,524 - Halo - INFO - Objective: 6
+2024-01-02 23:48:59,524 - Halo - INFO - Route: 
+2024-01-02 23:48:59,524 - Halo - INFO - Route: 
+2024-01-02 23:50:11,126 - Halo - INFO - Handler initialized
+2024-01-02 23:50:11,749 - Halo - INFO - Handler initialized
+2024-01-02 23:50:11,749 - Halo - INFO - Handler initialized
+2024-01-02 23:50:29,146 - Halo - INFO - Objective: 6
+2024-01-02 23:50:29,146 - Halo - INFO - Objective: 6
+2024-01-02 23:50:29,146 - Halo - INFO - Route: 
+2024-01-02 23:50:29,146 - Halo - INFO - Route: 
+2024-01-02 23:50:51,706 - Halo - INFO - Handler initialized
+2024-01-02 23:50:52,398 - Halo - INFO - Handler initialized
+2024-01-02 23:50:52,398 - Halo - INFO - Handler initialized
+2024-01-02 23:51:07,245 - Halo - INFO - Objective: 6
+2024-01-02 23:51:07,245 - Halo - INFO - Objective: 6
+2024-01-02 23:51:07,245 - Halo - INFO - Route: 
+2024-01-02 23:51:07,245 - Halo - INFO - Route: 
+2024-01-02 23:53:07,694 - Halo - INFO - Handler initialized
+2024-01-02 23:53:08,320 - Halo - INFO - Handler initialized
+2024-01-02 23:53:08,320 - Halo - INFO - Handler initialized
+2024-01-02 23:53:22,654 - Halo - INFO - Objective: 6
+2024-01-02 23:53:22,654 - Halo - INFO - Objective: 6
+2024-01-02 23:53:22,654 - Halo - INFO - Route: 
+2024-01-02 23:53:22,654 - Halo - INFO - Route: 
+2024-01-02 23:57:06,312 - Halo - INFO - Handler initialized
+2024-01-02 23:57:06,940 - Halo - INFO - Handler initialized
+2024-01-02 23:57:06,940 - Halo - INFO - Handler initialized
+2024-01-02 23:57:22,304 - Halo - INFO - Objective: 6
+2024-01-02 23:57:22,304 - Halo - INFO - Objective: 6
+2024-01-02 23:57:22,305 - Halo - INFO - Route: 
+2024-01-02 23:57:22,305 - Halo - INFO - Route: 
+2024-01-03 00:01:57,613 - Halo - INFO - Handler initialized
+2024-01-03 00:01:58,352 - Halo - INFO - Handler initialized
+2024-01-03 00:01:58,352 - Halo - INFO - Handler initialized
+2024-01-03 00:02:14,847 - Halo - INFO - Objective: 6
+2024-01-03 00:02:14,847 - Halo - INFO - Objective: 6
+2024-01-03 00:02:14,848 - Halo - INFO - Route: 
+2024-01-03 00:02:14,848 - Halo - INFO - Route: 
+2024-01-03 00:05:45,833 - Halo - INFO - Handler initialized
+2024-01-03 00:05:46,529 - Halo - INFO - Handler initialized
+2024-01-03 00:05:46,529 - Halo - INFO - Handler initialized
+2024-01-03 00:06:02,504 - Halo - INFO - Objective: 6
+2024-01-03 00:06:02,504 - Halo - INFO - Objective: 6
+2024-01-03 00:06:02,504 - Halo - INFO - Route: 
+2024-01-03 00:06:02,504 - Halo - INFO - Route: 
+2024-01-03 00:10:01,148 - Halo - INFO - Handler initialized
+2024-01-03 00:10:01,794 - Halo - INFO - Handler initialized
+2024-01-03 00:10:01,794 - Halo - INFO - Handler initialized
+2024-01-03 00:10:15,707 - Halo - INFO - Objective: 6
+2024-01-03 00:10:15,707 - Halo - INFO - Objective: 6
+2024-01-03 00:10:15,707 - Halo - INFO - Route: 
+2024-01-03 00:10:15,707 - Halo - INFO - Route: 

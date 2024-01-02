@@ -21,7 +21,7 @@ def create_data_model(matrix):
     return data
 
 
-def optimize_route_ortools(matrix):
+def optimize_route_ortools(matrix) -> tuple:
     """
     Args:
         matrix: The distance matrix
