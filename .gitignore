@@ -13,3 +13,4 @@ build
 dist
 Halo.log
 cache
+.github/workflows/sonarcloud-analyze.yml
