@@ -23,7 +23,7 @@ class RouteOptimizer:
     def __init__(self, waypoints: Dict[str, Tuple[float, float]]):
         self.waypoints = waypoints
 
-    def optimize_route(self) -> Dict[str, Tuple[float, float]]:
+    async def optimize_route(self) -> Dict[str, Tuple[float, float]]:
         try:
             optimized_waypoints = run(self.waypoints)
             return optimized_waypoints
@@ -45,8 +45,8 @@ class OptAPIRouter:
         async def _(waypoints: Waypoints):
             try:
                 optimizer = RouteOptimizer(waypoints.waypoints)
-                optimized_route = optimizer.optimize_route()
-                return JSONResponse(content=optimized_route)
+                optimized_route = await optimizer.optimize_route()
+                return JSONResponse(status_code=200, content=optimized_route)
             except Exception as e:
                 raise HTTPException(status_code=200, detail=str(e))
 
