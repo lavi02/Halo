@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from example.src.config.config import app
+from example.src.database.__init__ import get_db
 from example.src.database.models.user.user import *
 from example.src.database.__init__ import *
 from example.src.service.jwt import *
@@ -25,7 +25,7 @@ class UserAPIRouter:
             return JSONResponse(status_code=200, content={"message": "success"})
 
     def user_token(self):
-        @app.post("/token")
+        @self.router.post("/token")
         async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db = Depends(get_db)):
             user = AuthManager.authenticate_user(
                 db, form_data.username, form_data.password)
