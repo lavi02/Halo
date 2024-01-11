@@ -1,7 +1,7 @@
 import unittest
 from src.service.tsp.a_star import HeuristicAgent
-from src.service.tsp.q import RouteEnv
-from src.service.tsp.solver import optimize_route_ortools
+from src.service.tsp.solver import OrToolsRouteOptimizer
+from src.repo.log.__init__ import handler
 import numpy as np
 import networkx as nx
 import osmnx as ox
@@ -55,7 +55,7 @@ class TestOptimizeRouteOrtools(unittest.TestCase):
         self.matrix = np.array([[0, 1, 2], [1, 0, 3], [2, 3, 0]]) 
 
     def test_optimize_route_ortools(self):
-        obj_val, path = optimize_route_ortools(self.matrix)
+        obj_val, path = OrToolsRouteOptimizer(logger=handler).optimize_route(self.matrix)
         self.assertIsNotNone(obj_val)
         self.assertIsNotNone(path)
         self.assertTrue(len(path) > 0)
