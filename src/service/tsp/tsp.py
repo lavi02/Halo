@@ -42,31 +42,39 @@ class RouteOptimizerRunner:
     def __init__(self, optimizers: List[RouteOptimizer]):
         self.optimizers = optimizers
 
-    def run(self, matrix) -> tuple:
+    def run(self, matrix, start_fixed=False, end_fixed=False) -> tuple:
         best_value = float('inf')
         best_path = None
 
         for optimizer in self.optimizers:
-            value, path = optimizer.optimize_route(matrix)
-            if value < best_value:
-                best_value = value
-                best_path = path
+            try:
+                value, path = optimizer.optimize_route(matrix, start_fixed, end_fixed)
+                if value < best_value:
+                    best_value = value
+                    best_path = path
+            except Exception as e:
+                handler.log.error("Error occurred while running optimizer: %s" % e)
 
         return best_value, best_path
 
 
-def run(waypoints: dict) -> dict:
+def run(waypoints: dict, start_fixed: bool = False, end_fixed: bool = False) -> dict:
     try:
         korea = download_korea_road_network()
         coords = list(waypoints.values())
-        matrix = create_distance_matrix(korea, coords)
 
-        optimizers = [OrToolsRouteOptimizer(logger=handler), QLearningRouteOptimizer(
-            logger=handler), AStarRouteOptimizer(logger=handler)]
+        # 출발지나 도착지를 고정하는 경우, 해당 지점을 리스트의 시작 또는 끝으로 이동
+        if start_fixed or end_fixed:
+            fixed_point = coords.pop(0) if start_fixed else coords.pop()
+            matrix = create_distance_matrix(korea, coords)
+            coords.insert(0, fixed_point) if start_fixed else coords.append(fixed_point)
+        else:
+            matrix = create_distance_matrix(korea, coords)
+
+        optimizers = [OrToolsRouteOptimizer(logger=handler), QLearningRouteOptimizer(logger=handler), AStarRouteOptimizer(logger=handler)]
         runner = RouteOptimizerRunner(optimizers)
-        objective_value, path = runner.run(matrix)
-        handler.log.info("Objective value: %s, Path: %s" %
-                         (objective_value, path))
+        objective_value, path = runner.run(matrix, start_fixed, end_fixed)
+        handler.log.info("Objective value: %s, Path: %s" % (objective_value, path))
 
         optimized_waypoints = {}
         for i, index in enumerate(path):
@@ -77,3 +85,4 @@ def run(waypoints: dict) -> dict:
     except Exception as e:
         handler.log.error("TSP error occurred: %s" % e)
         return {}
+

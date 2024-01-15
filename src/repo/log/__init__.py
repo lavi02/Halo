@@ -31,7 +31,7 @@ class Log:
     def warning(self, message):
         self.logger.warning(message)
 
-    def error(self, message):
+    def error(self, message) -> None:
         self.logger.error(message)
 
     def fatal(self, message):
