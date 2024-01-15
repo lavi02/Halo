@@ -16,16 +16,30 @@ app = FastAPI()
 
 
 class Waypoints(BaseModel):
+    stop_fix_type: str = "Departure"
     waypoints: Dict[str, Tuple[float, float]]
 
 
 class RouteOptimizer:
-    def __init__(self, waypoints: Dict[str, Tuple[float, float]]):
+    def __init__(self, waypoints: Waypoints):
+        self.stop_fix_type = "Departure"
         self.waypoints = waypoints
+
+    def get_stop_fix_type(self):
+        if self.stop_fix_type == "Departure":
+            if self.stop_fix_type == "Arrival":
+                return [True, True]
+            else:
+                return [True, False]
+        else:
+            if self.stop_fix_type == "Arrival":
+                return [False, True]
+            else:
+                return [False, False]
 
     async def optimize_route(self) -> Dict[str, Tuple[float, float]]:
         try:
-            optimized_waypoints = run(self.waypoints)
+            optimized_waypoints = run(self.waypoints.waypoints, self.get_stop_fix_type()[0], self.get_stop_fix_type()[1])
             return optimized_waypoints
         except Exception as e:
             raise e
@@ -44,7 +58,7 @@ class OptAPIRouter:
         @self.router.post("/optimize_test")
         async def _(waypoints: Waypoints):
             try:
-                optimizer = RouteOptimizer(waypoints.waypoints)
+                optimizer = RouteOptimizer(waypoints)
                 optimized_route = await optimizer.optimize_route()
                 return JSONResponse(status_code=200, content=optimized_route)
             except Exception as e:
@@ -54,7 +68,7 @@ class OptAPIRouter:
         @self.router.post("/optimize")
         async def _(waypoints: Waypoints,  current_user: str = Depends(JWTAuthenticator.get_current_user)):
             try:
-                optimizer = RouteOptimizer(waypoints.waypoints)
+                optimizer = RouteOptimizer(waypoints)
                 optimized_route = optimizer.optimize_route()
                 return JSONResponse(content=optimized_route)
             except Exception as e:

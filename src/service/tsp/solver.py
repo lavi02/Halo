@@ -5,13 +5,14 @@ from abc import ABC, abstractmethod
 import networkx as nx
 from typing import Tuple, List
 
-from src.repo.log.__init__ import handler
+from src.repo.log.__init__ import handler, Log
 from src.service.tsp.a_star import *
 from src.service.tsp.q import *
 
+
 class RouteOptimizer(ABC):
     @abstractmethod
-    def optimize_route(self, matrix) -> Tuple[int, List[int]]:
+    def optimize_route(self, matrix, start_fixed=False, end_fixed=False) -> Tuple[int, List[int]]:
         pass
 
 
@@ -24,11 +25,12 @@ def create_data_model(matrix):
 
     return data
 
+
 class OrToolsRouteOptimizer(RouteOptimizer):
     def __init__(self, logger):
-        self.logger = logger
+        self.logger = logger if logger else handler
 
-    def optimize_route(self, matrix) -> tuple:
+    def optimize_route(self, matrix, start_fixed=False, end_fixed=False) -> tuple:
         """
         Args:
             matrix: The distance matrix
@@ -37,10 +39,15 @@ class OrToolsRouteOptimizer(RouteOptimizer):
             The objective value and the solution
         """
         try:
-            # Instantiate the data problem
             data = create_data_model(matrix)
-            manager = pywrapcp.RoutingIndexManager(
-                len(data['distance_matrix']), data['num_vehicles'], data['depot'])
+
+            start_index = 0 if start_fixed else data['depot']
+            end_index = len(matrix) - 1 if end_fixed else data['depot']
+
+            manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
+                                                   data['num_vehicles'],
+                                                   [start_index],
+                                                   [end_index])
 
             routing = pywrapcp.RoutingModel(manager)
 
@@ -51,7 +58,6 @@ class OrToolsRouteOptimizer(RouteOptimizer):
 
             transit_callback_index = routing.RegisterTransitCallback(
                 distance_callback)
-
             routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
 
             search_parameters = pywrapcp.DefaultRoutingSearchParameters()
@@ -61,8 +67,9 @@ class OrToolsRouteOptimizer(RouteOptimizer):
             solution = routing.SolveWithParameters(search_parameters)
 
             if solution:
-                handler.log.info("Objective: %s" % solution.ObjectiveValue())
-                handler.log.info("Route: ")
+                self.logger.log.info("Objective: %s" % 
+                                 solution.ObjectiveValue())  # type: ignore
+                self.logger.log.info("Route: ")  # type: ignore
 
                 objective_value = solution.ObjectiveValue()
                 path = []
@@ -76,19 +83,18 @@ class OrToolsRouteOptimizer(RouteOptimizer):
 
                 return objective_value, path
             else:
-                # Tuple[int, List[int]
                 return None, None
 
         except Exception as e:
-            handler.log.error("Ortools error: %s" % e)
+            self.logger.log.error("Ortools error: %s" % e)  # type: ignore
             return None, None
-        
+
 
 class QLearningRouteOptimizer(RouteOptimizer):
     def __init__(self, logger):
-        self.logger = logger
+        self.logger = logger if logger else handler
 
-    def optimize_route(self, matrix) -> tuple:
+    def optimize_route(self, matrix, start_fixed=False, end_fixed=False) -> tuple:
         """
         Args:
             matrix: The distance matrix
@@ -98,8 +104,14 @@ class QLearningRouteOptimizer(RouteOptimizer):
         """
         try:
             graph = nx.from_numpy_array(np.array(matrix))
-            origin_node = 0
-            destination_node = len(matrix) - 1
+
+            origin_node = 0 if start_fixed else None
+            destination_node = len(matrix) - 1 if end_fixed else None
+
+            if origin_node is None:
+                origin_node = 0
+            if destination_node is None:
+                destination_node = len(matrix) - 1
 
             env = RouteEnv(graph, origin_node, destination_node)
             agent = QLearningAgent(env)
@@ -122,14 +134,15 @@ class QLearningRouteOptimizer(RouteOptimizer):
             return objective_value, path
 
         except Exception as e:
-            handler.log.error("Q error: %s" % e)
+            self.logger.log.error("Q-Learning error: %s" % e)
             return None, None
-        
+
+
 class AStarRouteOptimizer(RouteOptimizer):
     def __init__(self, logger):
-        self.logger = logger
-        
-    def optimize_route(self, matrix):
+        self.logger = logger if logger else handler
+
+    def optimize_route(self, matrix, start_fixed=False, end_fixed=False):
         """
         Args:
             matrix: The distance matrix
@@ -139,16 +152,17 @@ class AStarRouteOptimizer(RouteOptimizer):
         """
         try:
             graph = nx.from_numpy_array(np.array(matrix))
-            origin_node = 0
-            destination_node = len(matrix) - 1
 
-            origin = graph.nodes[origin_node]['x'], graph.nodes[origin_node]['y']
-            destination = graph.nodes[destination_node]['x'], graph.nodes[destination_node]['y']
+            origin_node = 0 if start_fixed else None
+            destination_node = len(matrix) - 1 if end_fixed else None
 
-            agent = HeuristicAgent(graph)
-            path = agent.calculate_optimized_path(origin, destination)
-            if path is None:
-                return None, None
+            if origin_node is None:
+                origin_node = 0
+            if destination_node is None:
+                destination_node = len(matrix) - 1
+
+            path = nx.astar_path(graph, origin_node,
+                                 destination_node, weight='weight')
 
             objective_value = 0
             for i in range(len(path) - 1):
@@ -157,6 +171,5 @@ class AStarRouteOptimizer(RouteOptimizer):
             return objective_value, path
 
         except Exception as e:
-            handler.log.error("A* error: %s" % e)
+            self.logger.log.error("A* error: %s" % e)
             return None, None
-
