@@ -48,6 +48,11 @@ class QLearningAgent:
         Returns:
             The action to be taken
         '''
+        neighbors = list(self.env.graph.neighbors(state))
+        num_available_actions = len(neighbors)
+        if num_available_actions == 0:
+            return -1
+        
         available_actions = len(list(self.env.graph.neighbors(state)))
         if random.uniform(0, 1) < self.epsilon:
             action = random.choice(range(available_actions))
@@ -65,6 +70,9 @@ class QLearningAgent:
             reward: The reward for the action
             next_state: The next state
         '''
+        if action == -1:  # 더 이상 이동할 수 없는 경우
+            return
+        
         available_actions = len(list(self.env.graph.neighbors(state)))
         if next_state == self.env.destination_node:
             self.q_table[state, action] = reward

@@ -1,4 +1,5 @@
 from src.service.tsp.q import nx, ox, np
+from src.service.tsp.hvsine import create_graph, create_haversine_matrix
 from src.service.tsp.solver import RouteOptimizer, OrToolsRouteOptimizer, QLearningRouteOptimizer, AStarRouteOptimizer
 from typing import List
 
@@ -7,9 +8,9 @@ from src.repo.log.__init__ import handler
 
 def download_korea_road_network() -> nx.Graph:
     try:
-        korea_gdf = ox.geocode_to_gdf("South Korea")
+        korea_gdf = ox.geocode_to_gdf("Seoul, South Korea")
         korea_graph = ox.graph_from_polygon(
-            korea_gdf.unary_union, network_type='drive')
+            korea_gdf.unary_union, network_type='drive', simplify=True)
         return korea_graph
     except Exception as e:
         handler.log.error("Error downloading Korea road network: %s" % e)
@@ -75,6 +76,20 @@ def run(waypoints: dict, start_fixed: bool = False, end_fixed: bool = False) -> 
         runner = RouteOptimizerRunner(optimizers)
         objective_value, path = runner.run(matrix, start_fixed, end_fixed)
         handler.log.info("Objective value: %s, Path: %s" % (objective_value, path))
+
+        if objective_value == 0 or path is None:
+            coords = list(waypoints.values())
+            matrix = create_haversine_matrix(coords)
+
+            data = create_graph(waypoints, matrix)
+            path = nx.shortest_path(data, 0, len(waypoints) - 1, weight='weight')
+            handler.log.info("Objective value: %s, Path: %s" % (objective_value, path))
+
+            optimized_waypoints = {}
+            for i, index in enumerate(path):
+                optimized_waypoints[list(waypoints.keys())[i]] = coords[index]
+
+            return optimized_waypoints
 
         optimized_waypoints = {}
         for i, index in enumerate(path):
